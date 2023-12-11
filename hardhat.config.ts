@@ -1,11 +1,9 @@
 import 'solidity-coverage';
 import '@typechain/hardhat';
-import 'hardhat-gas-reporter';
 import * as dotenv from 'dotenv';
-import '@nomiclabs/hardhat-waffle';
-import '@nomiclabs/hardhat-etherscan';
 import '@nomiclabs/hardhat-etherscan';
 import '@openzeppelin/hardhat-upgrades';
+import '@nomicfoundation/hardhat-foundry';
 import { HardhatUserConfig} from 'hardhat/config';
 
 dotenv.config();

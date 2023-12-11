@@ -1,27 +1,45 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 
-import {ERC1155} from '@openzeppelin/contracts/token/ERC1155/ERC1155.sol';
+import {IInputBox} from '@cartesi/contracts/inputs/IInputBox.sol';
+import {ZKPVerifier} from '@iden3/contracts/verifiers/ZKPVerifier.sol';
 import {PrimitiveTypeUtils} from '@iden3/contracts/lib/PrimitiveTypeUtils.sol';
 import {ICircuitValidator} from '@iden3/contracts/interfaces/ICircuitValidator.sol';
-import {ZKPVerifier} from '@iden3/contracts/verifiers/ZKPVerifier.sol';
 
-contract KYCTribes is ERC1155, ZKPVerifier {
-    uint64 public constant TRANSFER_REQUEST_ID_SIG_VALIDATOR = 1;
+contract KYCTribes is ZKPVerifier {
+    address public dapp;
+    address public inputBox;
 
-    event Verified(uint64 indexed requestId, uint256 indexed id, address indexed addr);
+    uint64 public constant KYC_TRIBES_ID_SIG_VALIDATOR = 1;
 
-    constructor() ERC1155("") {}
+    event ProofMatch(uint64 indexed requestId, address indexed addr);
+    event KYCVerificationCompleted(uint64 indexed requestId, uint256 indexed id, address indexed addr);
+
+    error ProofDoesNotMatch(uint64 requestId, address addr);
+    error KYCVerificationFailed(uint64 requestId, address addr);
+
+    constructor(address _dapp, address _inputBox) {
+        dapp = _dapp;
+        inputBox = _inputBox;
+    }
 
     function _beforeProofSubmit(
-        uint64, /* requestId */
+        uint64 requestId,
         uint256[] memory inputs,
         ICircuitValidator validator
     ) internal view override {
-        // check that challenge input is address of sender
-        address addr = PrimitiveTypeUtils.int256ToAddress(inputs[validator.inputIndexOf('challenge')]);
-        // this is linking between msg.sender and
-        require(_msgSender() == addr, 'address in proof is not a sender address');
+        address addr = PrimitiveTypeUtils.int256ToAddress(
+            inputs[validator.inputIndexOf('challenge')]
+        );
+
+        if (_msgSender() != addr) {
+            revert ProofDoesNotMatch(
+                requestId,
+                addr
+            );
+        } else {
+            emit ProofMatch(requestId, addr);
+        }
     }
 
     function _afterProofSubmit(
@@ -29,16 +47,14 @@ contract KYCTribes is ERC1155, ZKPVerifier {
         uint256[] memory inputs,
         ICircuitValidator /*validator*/
     ) internal override {
-        if (requestId == TRANSFER_REQUEST_ID_SIG_VALIDATOR){
-            // if proof is given for transfer request id ( mtp or sig ) and it's a first time we mint tokens to sender
-            uint256 id = inputs[1];
-            emit Verified(requestId, id, _msgSender());
-            // if (idToAddress[id] == address(0) && addressToId[_msgSender()] == 0) {
-            //     super._mint(_msgSender(), TOKEN_AMOUNT_FOR_AIRDROP_PER_ID);
-            //     addressToId[_msgSender()] = id;
-            //     idToAddress[id] = _msgSender();
-            // }
+        if (requestId == KYC_TRIBES_ID_SIG_VALIDATOR) {
+            IInputBox(inputBox).addInput(dapp, abi.encodePacked(_msgSender()));
+            emit KYCVerification(requestId, id, _msgSender());
+        } else {
+            revert KYCVerificationFailed(
+                requestId,
+                _msgSender()
+            );
         }
     }
-
 }

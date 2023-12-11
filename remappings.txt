@@ -1,0 +1,1 @@
+@cartesi/contracts/=lib/rollups-contracts/onchain/rollups/contracts/
