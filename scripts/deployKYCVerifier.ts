@@ -16,16 +16,16 @@ async function main() {
 
   // Use the Docker image contained on Dockerfile to create the circuit params
 
-  const schema = '74977327600848231385663280181476307657';
+  const schema = '275069065118269212104228128165922936799';
   const schemaClaimPathKey =
-    '20376033832371109177683048456014525905119173674985843915445634726167450989630';
+    '12038010879137234900535889227945743321506492053966966060361761579173868986381';
 
   //
 
   const schemaUrl =
-    'https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld';
-  const type = 'KYCAgeCredential';
-  const value = [20020101, ...new Array(63).fill(0)];
+    'https://raw.githubusercontent.com/Tribes-Dapp/identity/main/utils/schema/KYC_Tribes_Investor.jsonld';
+  const type = 'tribesIdentityCreator';
+  const value = [18, ...new Array(63).fill(0)];
   const slotIndex = 0;
 
   const dapp = "0x59b22D57D4f067708AB0c00552767405926dc768" // Change this to your DApp address
@@ -48,14 +48,14 @@ async function main() {
   const query = {
     schema: schema,
     claimPathKey: schemaClaimPathKey,
-    operator: Operators.LT,
+    operator: Operators.GT,
     slotIndex: slotIndex,
     value: value,
     queryHash: calculateQueryHash(
       value,
       schema,
       slotIndex,
-      Operators.LT,
+      Operators.GT,
       schemaClaimPathKey,
       claimPathDoesntExist
     ).toString(),
@@ -68,10 +68,10 @@ async function main() {
   const requestIdSig = await verifierInstace.KYC_TRIBES_ID_SIG_VALIDATOR();
 
   const invokeRequestMetadata = {
-    id: '7f38a193-0918-4a48-9fac-36adfdb8b542',
+    id: '22387dab-e0e3-4ad0-af97-807a62226923',
     typ: 'application/iden3comm-plain-json',
     type: 'https://iden3-communication.io/proofs/1.0/contract-invoke-request',
-    thid: '7f38a193-0918-4a48-9fac-36adfdb8b542',
+    thid: '22387dab-e0e3-4ad0-af97-807a62226923',
     body: {
       reason: 'for testing',
       transaction_data: {

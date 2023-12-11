@@ -11,30 +11,34 @@ import (
 )
 
 const (
-	jsonLDContext = "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld" // JSONLD schema for credential
-	typ           = "tribesIdentity"                                                                               // credential type
-	fieldName     = "age"                                                                                       // field name in form of field.field2.field3 field must be present in the credential subject
+	jsonLDContext = "https://raw.githubusercontent.com/Tribes-Dapp/identity/main/utils/schema/KYC_Tribes_Creator.jsonld" // JSONLD schema for credential
+	typ           = "tribesIdentityCreator"                     // credential type
+	fieldName     = "influency"                              // field name in form of field.field2.field3 field must be present in the credential subject
 	schemaJSONLD  = `{
     "@context": [
-      {
-        "@protected": true,
-        "@version": 1.1,
-        "id": "@id",
-        "type": "@type",
-        "tribesIdentity": {
-          "@context": {
-            "@propagate": true,
+        {
             "@protected": true,
-            "polygon-vocab": "urn:uuid:f86414ac-0b34-4da4-b7f8-d74ca74328b1#",
-            "xsd": "http://www.w3.org/2001/XMLSchema#",
-            "majority": {
-              "@id": "polygon-vocab:majority",
-              "@type": "xsd:double"
+            "@version": 1.1,
+            "id": "@id",
+            "type": "@type",
+            "tribesIdentityCreator": {
+                "@context": {
+                    "@propagate": true,
+                    "@protected": true,
+                    "polygon-vocab": "urn:uuid:32415587-832a-4eb2-83b7-a49e1cc65e0d#",
+                    "xsd": "http://www.w3.org/2001/XMLSchema#",
+                    "majority": {
+                        "@id": "polygon-vocab:majority",
+                        "@type": "xsd:double"
+                    },
+                    "influency": {
+                        "@id": "polygon-vocab:influency",
+                        "@type": "xsd:boolean"
+                    }
+                },
+                "@id": "urn:uuid:c5afb7c8-a615-4814-b54e-8c7fa5c33f29"
             }
-          },
-          "@id": "urn:uuid:eeff0142-f6f5-4895-91a3-89536fdd7447"
         }
-      }
     ]
   }`
 )
