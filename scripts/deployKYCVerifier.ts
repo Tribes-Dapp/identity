@@ -1,6 +1,6 @@
 import { ethers } from 'hardhat';
-import { packValidatorParams } from '../test/utils/pack-utils';
-import { calculateQueryHash } from '../test/utils/utils';
+import { packValidatorParams } from '../utils/pack-utils';
+import { calculateQueryHash } from '../utils/utils';
 
 const Operators = {
   NOOP: 0, // No operation, skip query verification in circuit
@@ -13,16 +13,21 @@ const Operators = {
 };
 
 async function main() {
+
+  // Use the Docker image contained on Dockerfile to create the circuit params
+
   const schema = '74977327600848231385663280181476307657';
   const schemaClaimPathKey =
     '20376033832371109177683048456014525905119173674985843915445634726167450989630';
+
+  //
   const schemaUrl =
     'https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld';
   const type = 'KYCAgeCredential';
   const value = [20020101, ...new Array(63).fill(0)];
   const slotIndex = 0;
 
-  const contractName = 'KYCVerifier';
+  const contractName = 'KYCTribes';
   const ERC1155ContractFactory = await ethers.getContractFactory(contractName);
   const erc1155instance = await ERC1155ContractFactory.deploy();
   const claimPathDoesntExist = 0;
@@ -30,14 +35,12 @@ async function main() {
   await erc1155instance.deployed();
   console.log(contractName, 'deployed to:', erc1155instance.address);
 
+  // Below is the code to setZKPRequest request metadata
+
   const circuitIdSig = 'credentialAtomicQuerySigV2OnChain';
-
   const validatorAddressSig = '0x1E4a22540E293C0e5E8c33DAfd6f523889cFd878';
-
   const chainId = 80001;
-
   const network = 'polygon-mumbai';
-
   const query = {
     schema: schema,
     claimPathKey: schemaClaimPathKey,
@@ -93,12 +96,13 @@ async function main() {
   };
 
   try {
-    const txSig = await erc1155instance.setZKPRequest(requestIdSig, {
+    const Log = await erc1155instance.setZKPRequest(requestIdSig, {
       metadata: JSON.stringify(invokeRequestMetadata),
       validator: validatorAddressSig,
       data: packValidatorParams(query)
     });
-    await txSig.wait();
+    await Log.wait();
+    console.log('Log info:', Log);
   } catch (e) {
     console.log('error: ', e);
   }

@@ -52,17 +52,7 @@
   },
   "scripts": {
     "compile": "npx hardhat compile",
-    "test": "npx hardhat test",
-    "test:gas": "REPORT_GAS=true npx hardhat test",
-    "deploy:localhost": "npx hardhat run scripts/deploy.ts --network localhost",
     "deploy:mumbai:erc20": "npx hardhat run scripts/deployERC20.ts --network mumbai",
-    "deploy:mumbai:sig": "npx hardhat run scripts/deploySigValidator.ts --network mumbai",
-    "deploy:mumbai:mtp": "npx hardhat run scripts/deployMTPValidator.ts --network mumbai",
-    "deploy:mumbai:balancecredentialissuer": "npx hardhat run scripts/deployBalanceCredentialIssuer.ts --network mumbai",
-    "deploy:main:balancecredentialissuer": "npx hardhat run scripts/deployBalanceCredentialIssuer.ts --network main",
-    "deploy:main:sig": "npx hardhat run scripts/deploySigValidator.ts --network main",
-    "deploy:main:mtp": "npx hardhat run scripts/deployMTPValidator.ts --network main",
-    "deploy:main:erc20": "npx hardhat run scripts/deployERC20.ts --network main",
     "format": "prettier --write scripts/*.ts test/**/*.ts",
     "lint:contracts": "npx solhint contracts/**/*.sol",
     "lint:contracts:format": "npx prettier --write contracts/**/*.sol"

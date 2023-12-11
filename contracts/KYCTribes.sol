@@ -6,9 +6,8 @@ import {PrimitiveTypeUtils} from '@iden3/contracts/lib/PrimitiveTypeUtils.sol';
 import {ICircuitValidator} from '@iden3/contracts/interfaces/ICircuitValidator.sol';
 import {ZKPVerifier} from '@iden3/contracts/verifiers/ZKPVerifier.sol';
 
-contract KYCVerifier is ERC1155, ZKPVerifier {
+contract KYCTribes is ERC1155, ZKPVerifier {
     uint64 public constant TRANSFER_REQUEST_ID_SIG_VALIDATOR = 1;
-    uint64 public constant TRANSFER_REQUEST_ID_MTP_VALIDATOR = 2;
 
     event Verified(uint64 indexed requestId, uint256 indexed id, address indexed addr);
 
@@ -30,7 +29,7 @@ contract KYCVerifier is ERC1155, ZKPVerifier {
         uint256[] memory inputs,
         ICircuitValidator /*validator*/
     ) internal override {
-        if (requestId == TRANSFER_REQUEST_ID_SIG_VALIDATOR || requestId == TRANSFER_REQUEST_ID_MTP_VALIDATOR ){
+        if (requestId == TRANSFER_REQUEST_ID_SIG_VALIDATOR){
             // if proof is given for transfer request id ( mtp or sig ) and it's a first time we mint tokens to sender
             uint256 id = inputs[1];
             emit Verified(requestId, id, _msgSender());
