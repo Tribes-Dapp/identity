@@ -1,0 +1,27 @@
+{
+    "@context": [
+        {
+            "@protected": true,
+            "@version": 1.1,
+            "id": "@id",
+            "type": "@type",
+            "tribesIdentity": {
+                "@context": {
+                    "@propagate": true,
+                    "@protected": true,
+                    "polygon-vocab": "urn:uuid:cdce73ed-1796-4cad-949b-9b1ea9937ae4#",
+                    "xsd": "http://www.w3.org/2001/XMLSchema#",
+                    "majority": {
+                        "@id": "polygon-vocab:majority",
+                        "@type": "xsd:double"
+                    },
+                    "influency": {
+                        "@id": "polygon-vocab:influency",
+                        "@type": "xsd:boolean"
+                    }
+                },
+                "@id": "urn:uuid:115fa804-5dc8-452b-ad82-9de09978ad34"
+            }
+        }
+    ]
+}

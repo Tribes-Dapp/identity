@@ -1,0 +1,109 @@
+{
+    "$metadata": {
+        "type": "tribesIdentity",
+        "uris": {
+            "jsonLdContext": "ipfs://QmU4H6WQ72PyHihbJAWK9z1y6g3jBtY6DeAG1XT5cQr24H"
+        },
+        "version": "1.3"
+    },
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Identity verification to ensure integrity within the Tribes ecosystem.",
+    "title": "KYC_Tribes_Creator",
+    "properties": {
+        "@context": {
+            "type": [
+                "string",
+                "array",
+                "object"
+            ]
+        },
+        "expirationDate": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "id": {
+            "type": "string"
+        },
+        "issuanceDate": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "issuer": {
+            "type": [
+                "string",
+                "object"
+            ],
+            "format": "uri",
+            "properties": {
+                "id": {
+                    "format": "uri",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "type": {
+            "type": [
+                "string",
+                "array"
+            ],
+            "items": {
+                "type": "string"
+            }
+        },
+        "credentialSubject": {
+            "description": "Stores the data of the credential",
+            "title": "Credential subject",
+            "properties": {
+                "id": {
+                    "description": "Stores the DID of the subject that owns the credential",
+                    "title": "Credential subject ID",
+                    "format": "uri",
+                    "type": "string"
+                },
+                "majority": {
+                    "description": "Majority verification.",
+                    "title": "age",
+                    "type": "number"
+                },
+                "influency": {
+                    "description": "This field pertains to the verified influencer status by a social network.",
+                    "title": "hasInfluency",
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "influency"
+            ],
+            "type": "object"
+        },
+        "credentialSchema": {
+            "properties": {
+                "id": {
+                    "format": "uri",
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "@context",
+        "id",
+        "issuanceDate",
+        "issuer",
+        "type",
+        "credentialSubject",
+        "credentialSchema"
+    ],
+    "type": "object"
+}

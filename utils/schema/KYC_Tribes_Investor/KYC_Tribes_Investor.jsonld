@@ -1,0 +1,27 @@
+{
+    "@context": [
+        {
+            "@protected": true,
+            "@version": 1.1,
+            "id": "@id",
+            "type": "@type",
+            "tribesIdentityInvestor": {
+                "@context": {
+                    "@propagate": true,
+                    "@protected": true,
+                    "polygon-vocab": "urn:uuid:63457296-5b65-4038-8449-1e452249226e#",
+                    "xsd": "http://www.w3.org/2001/XMLSchema#",
+                    "majority": {
+                        "@id": "polygon-vocab:majority",
+                        "@type": "xsd:double"
+                    },
+                    "investment_profile": {
+                        "@id": "polygon-vocab:investment_profile",
+                        "@type": "xsd:boolean"
+                    }
+                },
+                "@id": "urn:uuid:f0103cc0-ff7e-4f17-9c7b-f4e100f27a20"
+            }
+        }
+    ]
+}

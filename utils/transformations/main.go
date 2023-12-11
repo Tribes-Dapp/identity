@@ -12,56 +12,31 @@ import (
 
 const (
 	jsonLDContext = "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld" // JSONLD schema for credential
-	typ           = "KYCAgeCredential"                                                                               // credential type
-	fieldName     = "birthday"                                                                                       // field name in form of field.field2.field3 field must be present in the credential subject
+	typ           = "tribesIdentity"                                                                               // credential type
+	fieldName     = "age"                                                                                       // field name in form of field.field2.field3 field must be present in the credential subject
 	schemaJSONLD  = `{
-  "@context": [
-    {
-      "@version": 1.1,
-      "@protected": true,
-      "id": "@id",
-      "type": "@type",
-      "KYCAgeCredential": {
-        "@id": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld#KYCAgeCredential",
-        "@context": {
-          "@version": 1.1,
-          "@protected": true,
-          "id": "@id",
-          "type": "@type",
-          "kyc-vocab": "https://github.com/iden3/claim-schema-vocab/blob/main/credentials/kyc.md#",
-          "xsd": "http://www.w3.org/2001/XMLSchema#",
-          "birthday": {
-            "@id": "kyc-vocab:birthday",
-            "@type": "xsd:integer"
+    "@context": [
+      {
+        "@protected": true,
+        "@version": 1.1,
+        "id": "@id",
+        "type": "@type",
+        "tribesIdentity": {
+          "@context": {
+            "@propagate": true,
+            "@protected": true,
+            "polygon-vocab": "urn:uuid:f86414ac-0b34-4da4-b7f8-d74ca74328b1#",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "majority": {
+              "@id": "polygon-vocab:majority",
+              "@type": "xsd:double"
+            }
           },
-          "documentType": {
-            "@id": "kyc-vocab:documentType",
-            "@type": "xsd:integer"
-          }
-        }
-      },
-      "KYCCountryOfResidenceCredential": {
-        "@id": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld#KYCCountryOfResidenceCredential",
-        "@context": {
-          "@version": 1.1,
-          "@protected": true,
-          "id": "@id",
-          "type": "@type",
-          "kyc-vocab": "https://github.com/iden3/claim-schema-vocab/blob/main/credentials/kyc.md#",
-          "xsd": "http://www.w3.org/2001/XMLSchema#",
-          "countryCode": {
-            "@id": "kyc-vocab:countryCode",
-            "@type": "xsd:integer"
-          },
-          "documentType": {
-            "@id": "kyc-vocab:documentType",
-            "@type": "xsd:integer"
-          }
+          "@id": "urn:uuid:eeff0142-f6f5-4895-91a3-89536fdd7447"
         }
       }
-    }
-  ]
-}`
+    ]
+  }`
 )
 
 func main() {
