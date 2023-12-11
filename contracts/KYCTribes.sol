@@ -13,7 +13,10 @@ contract KYCTribes is ZKPVerifier {
     uint64 public constant KYC_TRIBES_ID_SIG_VALIDATOR = 1;
 
     event ProofMatch(uint64 indexed requestId, address indexed addr);
-    event KYCVerificationCompleted(uint64 indexed requestId, uint256 indexed id, address indexed addr);
+    event KYCVerificationCompleted(
+        uint64 indexed requestId,
+        address indexed addr
+    );
 
     error ProofDoesNotMatch(uint64 requestId, address addr);
     error KYCVerificationFailed(uint64 requestId, address addr);
@@ -27,16 +30,12 @@ contract KYCTribes is ZKPVerifier {
         uint64 requestId,
         uint256[] memory inputs,
         ICircuitValidator validator
-    ) internal view override {
+    ) internal override {
         address addr = PrimitiveTypeUtils.int256ToAddress(
             inputs[validator.inputIndexOf('challenge')]
         );
-
         if (_msgSender() != addr) {
-            revert ProofDoesNotMatch(
-                requestId,
-                addr
-            );
+            revert ProofDoesNotMatch(requestId, addr);
         } else {
             emit ProofMatch(requestId, addr);
         }
@@ -44,17 +43,14 @@ contract KYCTribes is ZKPVerifier {
 
     function _afterProofSubmit(
         uint64 requestId,
-        uint256[] memory inputs,
+        uint256[] memory, /*inputs*/
         ICircuitValidator /*validator*/
     ) internal override {
         if (requestId == KYC_TRIBES_ID_SIG_VALIDATOR) {
             IInputBox(inputBox).addInput(dapp, abi.encodePacked(_msgSender()));
-            emit KYCVerification(requestId, id, _msgSender());
+            emit KYCVerificationCompleted(requestId, _msgSender());
         } else {
-            revert KYCVerificationFailed(
-                requestId,
-                _msgSender()
-            );
+            revert KYCVerificationFailed(requestId, _msgSender());
         }
     }
 }
