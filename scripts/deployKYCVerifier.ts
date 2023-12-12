@@ -13,7 +13,6 @@ const Operators = {
 };
 
 async function main() {
-
   // Use the Docker image contained on Dockerfile to create the circuit params
   // actualize
   const schema = '16101950847985442080272132781090291727';
@@ -28,8 +27,8 @@ async function main() {
   const value = [18, ...new Array(63).fill(0)];
   const slotIndex = 0;
 
-  const dapp = "0x59b22D57D4f067708AB0c00552767405926dc768" // Change this to your DApp address
-  const inputBox = "0x59b22D57D4f067708AB0c00552767405926dc768"
+  const dapp = '0x59b22D57D4f067708AB0c00552767405926dc768'; // Change this to your DApp address
+  const inputBox = '0x59b22D57D4f067708AB0c00552767405926dc768';
 
   const contractName = 'KYCTribes';
   const VerifierContractFactory = await ethers.getContractFactory(contractName);
@@ -68,10 +67,10 @@ async function main() {
   const requestIdSig = await verifierInstace.KYC_TRIBES_ID_SIG_VALIDATOR();
 
   const invokeRequestMetadata = {
-    id: 'db2fbba5-98e0-47fb-8022-29da9b29d2ac',
+    id: 'c5f002f4-bd36-4d09-b812-4379a0755139',
     typ: 'application/iden3comm-plain-json',
     type: 'https://iden3-communication.io/proofs/1.0/contract-invoke-request',
-    thid: 'db2fbba5-98e0-47fb-8022-29da9b29d2ac',
+    thid: 'c5f002f4-bd36-4d09-b812-4379a0755139',
     body: {
       reason: 'for testing',
       transaction_data: {
@@ -88,14 +87,13 @@ async function main() {
             allowedIssuers: [
               "*"
             ],
-            context: "ipfs://QmX9dSqGPxGZKMSrwr3tQvGVcpSfNkwhbsZ9cyxLiJXKTG",
+            context: schemaUrl,
             credentialSubject: {
               majority: {
-                $eq: 18
+                $gt: 18
               }
             },
-            skipClaimRevocationCheck: true,
-            type: "tribesIdentityCreator"
+            type: type
           }
         }
       ]
@@ -103,13 +101,14 @@ async function main() {
   };
 
   try {
-    const Log = await verifierInstace.setZKPRequest(requestIdSig, {
+    const Log = await verifierInstace.setZKPRequest(1, {
       metadata: JSON.stringify(invokeRequestMetadata),
       validator: validatorAddressSig,
       data: packValidatorParams(query)
     });
     await Log.wait();
     console.log('Log info:', Log);
+    console.log(JSON.stringify(invokeRequestMetadata));
   } catch (e) {
     console.log('error: ', e);
   }
