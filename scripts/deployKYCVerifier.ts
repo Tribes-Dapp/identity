@@ -15,15 +15,15 @@ const Operators = {
 async function main() {
 
   // Use the Docker image contained on Dockerfile to create the circuit params
-
-  const schema = '275069065118269212104228128165922936799';
+  // actualize
+  const schema = '16101950847985442080272132781090291727';
   const schemaClaimPathKey =
-    '12038010879137234900535889227945743321506492053966966060361761579173868986381';
+    '10578028729432718103059124701305124538124973667277556573095537376700969315500';
 
   //
 
   const schemaUrl =
-    'https://raw.githubusercontent.com/Tribes-Dapp/identity/main/utils/schema/KYC_Tribes_Investor.jsonld';
+    'https://raw.githubusercontent.com/Tribes-Dapp/identity/main/utils/schema/KYC_Tribes_Creator/KYC_Tribes_Creator.jsonld';
   const type = 'tribesIdentityCreator';
   const value = [18, ...new Array(63).fill(0)];
   const slotIndex = 0;
@@ -68,10 +68,10 @@ async function main() {
   const requestIdSig = await verifierInstace.KYC_TRIBES_ID_SIG_VALIDATOR();
 
   const invokeRequestMetadata = {
-    id: '22387dab-e0e3-4ad0-af97-807a62226923',
+    id: 'db2fbba5-98e0-47fb-8022-29da9b29d2ac',
     typ: 'application/iden3comm-plain-json',
     type: 'https://iden3-communication.io/proofs/1.0/contract-invoke-request',
-    thid: '22387dab-e0e3-4ad0-af97-807a62226923',
+    thid: 'db2fbba5-98e0-47fb-8022-29da9b29d2ac',
     body: {
       reason: 'for testing',
       transaction_data: {
@@ -85,14 +85,17 @@ async function main() {
           id: requestIdSig,
           circuitId: circuitIdSig,
           query: {
-            allowedIssuers: ['*'],
-            context: schemaUrl,
+            allowedIssuers: [
+              "*"
+            ],
+            context: "ipfs://QmX9dSqGPxGZKMSrwr3tQvGVcpSfNkwhbsZ9cyxLiJXKTG",
             credentialSubject: {
-              birthday: {
-                $lt: value[0]
+              majority: {
+                $eq: 18
               }
             },
-            type: type
+            skipClaimRevocationCheck: true,
+            type: "tribesIdentityCreator"
           }
         }
       ]
